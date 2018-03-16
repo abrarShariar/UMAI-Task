@@ -1,10 +1,10 @@
-// just in case we have multiple reducers. Maybe in the future!
 import {combineReducers} from 'redux';
-import UserReducer from './reducer-users';
-
+import OptionReducer from './reducer-options';
+import ActiveOptionReducer from './reducer-active-option';
 
 const allReducers = combineReducers({
-    users: UserReducer
+    options: OptionReducer,
+    activeOption: ActiveOptionReducer
 });
 
 export default allReducers;

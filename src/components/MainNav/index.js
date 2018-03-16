@@ -1,8 +1,21 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, NavItem, MenuItem } from 'react-bootstrap';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import {selectOption} from '../../actions/index';
+
 
 class MainNav extends Component {
+  
     render() {
+      const optionList = this.props.options.map((option) => {
+        return (
+          <NavItem key={option.id} onClick={() => this.props.selectOption(option)}>
+            {option.name}
+          </NavItem>
+          )
+        });
+      
       return (
         <div className="Navbar">
         <Navbar inverse collapseOnSelect>
@@ -14,19 +27,25 @@ class MainNav extends Component {
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav pullRight>
-              <NavItem eventKey={1}>
-                {'Simple Interest'}
-              </NavItem>
-              <NavItem eventKey={2}>
-                {'Compound Interest'}
-              </NavItem>
+              {optionList}
             </Nav>
           </Navbar.Collapse>
           </Navbar>
         </div>
       );
     }
+};
+
+function mapStateToProps(state) {
+  return {
+    options: state.options
+  };
 }
 
-export default MainNav;
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    selectOption: selectOption
+  }, dispatch);
+}
 
+export default connect(mapStateToProps, mapDispatchToProps)(MainNav);
