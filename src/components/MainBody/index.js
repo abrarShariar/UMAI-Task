@@ -3,7 +3,10 @@ import React, { Component } from 'react';
 class MainBody extends Component {
   render() {
     return (
-      <h1>Hello World</h1>
+      <div>
+        <h2>Username List</h2>
+        <h2>user Details</h2>
+      </div>
     )
   }
 }
