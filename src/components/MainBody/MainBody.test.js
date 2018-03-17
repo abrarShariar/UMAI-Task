@@ -33,8 +33,6 @@ describe('<MainBody/>', () => {
   it('check interest calculators renders', () => {
     expect(container.prop('activeOption')).toEqual(initialState.activeOption);
   });
-  
-
 
 });
 

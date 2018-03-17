@@ -61,7 +61,7 @@ class InterestCalculator extends Component {
   }
   
   getValidationStateRateOfInterest() {
-    if(this.state.rateOfInterest.length <= 0 || this.state.rateOfInterest === 0) {
+    if(this.state.rateOfInterest.length < 0 || this.state.rateOfInterest === 0) {
       this.setState({
         rateOfInterestValid: 'error'
       });
@@ -103,8 +103,8 @@ class InterestCalculator extends Component {
       if(this.props.title === 'simple'){
         this.setState({
           showResult: true,
-          interest: Math.round(this.state.principal * this.state.rateOfInterest * this.state.time, 2),
-          total: Math.round(Number(this.state.principal) + (this.state.principal * this.state.rateOfInterest * this.state.time), 2)
+          interest: Math.round(this.state.principal * this.state.rateOfInterest/100 * this.state.time, 2),
+          total: Math.round(Number(this.state.principal) + (this.state.principal * this.state.rateOfInterest/100 * this.state.time), 2)
         });
       } else {
         //printcipal + interest
@@ -149,7 +149,7 @@ class InterestCalculator extends Component {
           ): null 
         ): null}
         
-        <Form horizontal>
+        <Form horizontal className="mainForm">
           <FormGroup
             validationState={this.state.principalValid}
           >
