@@ -2,11 +2,11 @@ export default function () {
   return [
     {
       id: 1,
-      name: 'simple-interest'
+      name: 'simple'
     },
     {
       id: 2,
-      name: 'compound-interest'
+      name: 'compound'
     }
   ]
 }

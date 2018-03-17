@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, Grid, Form, FormGroup, Col, ControlLabel, FormControl, Alert } from 'react-bootstrap';
 import ResultTable from '../ResultTable';
 
-class SimpleInterest extends Component {
+class InterestCalculator extends Component {
   constructor(props) {
     super(props);
     
@@ -10,9 +10,9 @@ class SimpleInterest extends Component {
     this.validationCheck = this.validationCheck.bind(this);
     
     this.state = {
-      principal: 0,
-      rateOfInterest: 0,
-      time: 0,
+      principal: '',
+      rateOfInterest: '',
+      time: '',
       principalValid: null,
       rateOfInterestValid: null,
       timeValid: null,
@@ -91,30 +91,33 @@ class SimpleInterest extends Component {
   }
 
   validationCheck() {
-    if(this.state.principal === 'error' || !this.state.principal || this.state.rateOfInterestValid === 'error' || !this.state.rateOfInterestValid || this.state.timeValid === 'error' || !this.state.timeValid){
+    console.log(this.state);
+    if(this.state.principal === 'error' || !this.state.principal || this.state.rateOfInterestValid === 'error' || !this.state.rateOfInterestValid || this.state.timeValid === 'error' || !this.state.timeValid
+      || this.state.principal === '' || this.state.rateOfInterest === '' || this.state.time === ''
+    ){
       this.setState({
         showErrorMsg: true,
         showResult: false
       });
     } else {
+      
       this.setState({
         showResult: true,
         interest: this.state.principal * this.state.rateOfInterest * this.state.time,
         total: Number(this.state.principal) + Number(this.state.principal * this.state.rateOfInterest * this.state.time)
-      })
+      });
     }
     
     
-    console.log(this.state.interest);
   }
   
   render() {
     return (
       <Grid>
-        <h1 style={{ textAlign: 'center' }}>Simple Interest</h1>
+        <h1 style={{ textAlign: 'center' }}>{this.props.title} interest</h1>
         <br />
         {this.state.showErrorMsg ? (
-          this.state.principal === 0 || this.state.principalValid === 'error' ? (
+          this.state.principal === '' || this.state.principalValid === 'error' ? (
             <Alert bsStyle="danger">
               {this.state.errorMsgList.filter(msg => msg.key === 'principal').map(x => x.value)[0]}
             </Alert>
@@ -122,7 +125,7 @@ class SimpleInterest extends Component {
         ): null}
         
         {this.state.showErrorMsg ? (
-          this.state.rateOfInterest === 0 || this.state.rateOfInterestValid === 'error' ? (
+          this.state.rateOfInterest === '' || this.state.rateOfInterestValid === 'error' ? (
             <Alert bsStyle="danger">
               {this.state.errorMsgList.filter(msg => msg.key === 'rateOfInterest').map(x => x.value)[0]}
             </Alert>
@@ -130,7 +133,7 @@ class SimpleInterest extends Component {
         ): null}
         
         {this.state.showErrorMsg ? (
-          this.state.time === 0 || this.state.principalValid === 'error' ? (
+          this.state.time === '' || this.state.principalValid === 'error' ? (
             <Alert bsStyle="danger">
               {this.state.errorMsgList.filter(msg => msg.key === 'time').map(x => x.value)[0]}
             </Alert>
@@ -189,6 +192,28 @@ class SimpleInterest extends Component {
             </Col>
           </FormGroup>
           
+          {this.props.title === 'compound' ?
+            <FormGroup controlId="formControlsSelect">
+              <Col componentClass={ControlLabel} sm={2}>
+                {'Compounding Frequency'}
+              </Col>
+              <Col sm={10}>
+                 <FormControl componentClass="select" placeholder="select">
+                   <option value="365">Daily (365/yr)</option>
+                   <option value="360">Daily (360/yr)</option>
+                   <option value="52">Weekly (52/yr)</option>
+                   <option value="26">Bi-Weekly (26/yr)</option>
+                   <option value="24">Semi-Monthly (24/yr)</option>
+                   <option value="12">Monthly (12/yr)</option>
+                   <option value="6">Bi-Monthly (6/yr)</option>
+                   <option value="4">Quarterly (4/yr)</option>
+                   <option value="2">Semi-Annually (2/yr)</option>
+                   <option value="1">Annually (1/yr)</option>
+                 </FormControl>
+              </Col>
+            </FormGroup>
+          : null}
+            
           <FormGroup controlId="formHorizontalEmail">
             <Col componentClass={ControlLabel} sm={2}>
             </Col>
@@ -211,4 +236,4 @@ class SimpleInterest extends Component {
   }
 };
 
-export default SimpleInterest;
+export default InterestCalculator;

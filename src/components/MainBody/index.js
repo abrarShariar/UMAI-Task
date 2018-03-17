@@ -1,24 +1,24 @@
 import React, { Component } from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import SimpleInterest from '../SimpleInterest/';
+import InterestCalculator from '../InterestCalculator';
 
 class MainBody extends Component {
-
   render() {
     if(!this.props.activeOption) {
       return (
-        <h1>Hi! Select simple/compound interest option from the navbar</h1>
+        <h1 style={{textAlign: 'center'}}>
+        <br/>
+        Simple & Compond Interest Calculator
+        <br/>
+        <br/>
+        Explore & Have Fun!
+        </h1>
       );
     }
-    else if(this.props.activeOption.name === 'simple-interest') {
+    else {
       return (
-        <SimpleInterest />
-      );
-    }
-    else if(this.props.activeOption.name === 'compound-interest') {
-      return (
-        <h1>Compound Interest</h1>
+        <InterestCalculator title={this.props.activeOption.name} />
       );
     }
   }
