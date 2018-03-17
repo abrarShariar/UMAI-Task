@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import { Button, Grid, Form, FormGroup, Col, ControlLabel, FormControl, Alert } from 'react-bootstrap';
+import ResultTable from '../ResultTable';
 
 class SimpleInterest extends Component {
   constructor(props) {
     super(props);
     
     this.handleChange = this.handleChange.bind(this);
-    this.generateResult = this.generateResult.bind(this);
     this.validationCheck = this.validationCheck.bind(this);
     
     this.state = {
-      principal: '',
-      rateOfInterest: '',
-      time: '',
+      principal: 0,
+      rateOfInterest: 0,
+      time: 0,
       principalValid: null,
       rateOfInterestValid: null,
       timeValid: null,
@@ -28,7 +28,10 @@ class SimpleInterest extends Component {
         key: 'time',
         value: 'Please Enter A Valid Time In Year'
       }],
-      showErrorMsg: false
+      showErrorMsg: false,
+      showResult: false,
+      interest: 0,
+      total: 0
     };
   }
     
@@ -44,8 +47,7 @@ class SimpleInterest extends Component {
  }
   
   getValidationStatePrincipal() {
-    const length = this.state.principal.length;
-    if(length <= 0 || this.state.principal === 0 || this.state.principal === '') {
+    if(this.state.principal.length <= 0 || this.state.principal === 0) {
       this.setState({
         principalValid: 'error'
       });
@@ -58,8 +60,7 @@ class SimpleInterest extends Component {
   }
   
   getValidationStateRateOfInterest() {
-    const length = this.state.rateOfInterest.length;
-    if(length <= 0 || this.state.rateOfInterest === 0) {
+    if(this.state.rateOfInterest.length <= 0 || this.state.rateOfInterest === 0) {
       this.setState({
         rateOfInterestValid: 'error'
       });
@@ -77,8 +78,7 @@ class SimpleInterest extends Component {
   }
   
   getValidationStateTime() {
-    const length = this.state.time.length;
-    if(length <= 0 || this.state.time === 0 || this.state.time === '') {
+    if(this.state.time.length <= 0 || this.state.time === 0) {
       this.setState({
         timeValid: 'error'
       });
@@ -89,28 +89,32 @@ class SimpleInterest extends Component {
       });
     }
   }
-  
-  //calculate simple interest and generate result
-  generateResult() {
-    console.log(this.state);
-  }
 
   validationCheck() {
     if(this.state.principal === 'error' || !this.state.principal || this.state.rateOfInterestValid === 'error' || !this.state.rateOfInterestValid || this.state.timeValid === 'error' || !this.state.timeValid){
       this.setState({
-        showErrorMsg: true
+        showErrorMsg: true,
+        showResult: false
       });
-    }    
+    } else {
+      this.setState({
+        showResult: true,
+        interest: this.state.principal * this.state.rateOfInterest * this.state.time,
+        total: Number(this.state.principal) + Number(this.state.principal * this.state.rateOfInterest * this.state.time)
+      })
+    }
+    
+    
+    console.log(this.state.interest);
   }
   
   render() {
-    
     return (
       <Grid>
         <h1 style={{ textAlign: 'center' }}>Simple Interest</h1>
         <br />
         {this.state.showErrorMsg ? (
-          this.state.principal === '' || this.state.principalValid === 'error' ? (
+          this.state.principal === 0 || this.state.principalValid === 'error' ? (
             <Alert bsStyle="danger">
               {this.state.errorMsgList.filter(msg => msg.key === 'principal').map(x => x.value)[0]}
             </Alert>
@@ -118,7 +122,7 @@ class SimpleInterest extends Component {
         ): null}
         
         {this.state.showErrorMsg ? (
-          this.state.rateOfInterest === '' || this.state.rateOfInterestValid === 'error' ? (
+          this.state.rateOfInterest === 0 || this.state.rateOfInterestValid === 'error' ? (
             <Alert bsStyle="danger">
               {this.state.errorMsgList.filter(msg => msg.key === 'rateOfInterest').map(x => x.value)[0]}
             </Alert>
@@ -126,7 +130,7 @@ class SimpleInterest extends Component {
         ): null}
         
         {this.state.showErrorMsg ? (
-          this.state.time === '' || this.state.principalValid === 'error' ? (
+          this.state.time === 0 || this.state.principalValid === 'error' ? (
             <Alert bsStyle="danger">
               {this.state.errorMsgList.filter(msg => msg.key === 'time').map(x => x.value)[0]}
             </Alert>
@@ -189,10 +193,19 @@ class SimpleInterest extends Component {
             <Col componentClass={ControlLabel} sm={2}>
             </Col>
             <Col sm={10}>
-              <Button bsStyle="primary" type="button" onClick={this.validationCheck}>Submit</Button>
+              <Button bsStyle="success" type="button" onClick={this.validationCheck}>Submit</Button>
             </Col>
           </FormGroup>
         </Form>
+        
+        {this.state.showResult ? 
+              <ResultTable
+                  principal={this.state.principal}
+                  rateOfInterest={this.state.rateOfInterest} 
+                  time={this.state.time} 
+                  interest={this.state.interest}
+                  total={this.state.total}
+                /> : null}
       </Grid>  
     );
   }
