@@ -13,6 +13,7 @@ class InterestCalculator extends Component {
       principal: '',
       rateOfInterest: '',
       time: '',
+      frequency: 365,
       principalValid: null,
       rateOfInterestValid: null,
       timeValid: null,
@@ -78,7 +79,7 @@ class InterestCalculator extends Component {
   }
   
   getValidationStateTime() {
-    if(this.state.time.length <= 0 || this.state.time === 0) {
+    if(this.state.time.length < 0 || this.state.time === 0) {
       this.setState({
         timeValid: 'error'
       });
@@ -91,7 +92,6 @@ class InterestCalculator extends Component {
   }
 
   validationCheck() {
-    console.log(this.state);
     if(this.state.principal === 'error' || !this.state.principal || this.state.rateOfInterestValid === 'error' || !this.state.rateOfInterestValid || this.state.timeValid === 'error' || !this.state.timeValid
       || this.state.principal === '' || this.state.rateOfInterest === '' || this.state.time === ''
     ){
@@ -100,15 +100,24 @@ class InterestCalculator extends Component {
         showResult: false
       });
     } else {
-      
-      this.setState({
-        showResult: true,
-        interest: this.state.principal * this.state.rateOfInterest * this.state.time,
-        total: Number(this.state.principal) + Number(this.state.principal * this.state.rateOfInterest * this.state.time)
-      });
+      if(this.props.title === 'simple'){
+        this.setState({
+          showResult: true,
+          interest: Math.round(this.state.principal * this.state.rateOfInterest * this.state.time, 2),
+          total: Math.round(Number(this.state.principal) + (this.state.principal * this.state.rateOfInterest * this.state.time), 2)
+        });
+      } else {
+        //printcipal + interest
+        const accuredAmount = Math.round(this.state.principal * Math.pow((1 + (this.state.rateOfInterest/100)/Number(this.state.frequency)), (this.state.frequency * this.state.time)), 2);
+        const interest = Math.round(accuredAmount - this.state.principal, 2); 
+          
+        this.setState({
+          showResult: true,
+          interest: interest,
+          total: accuredAmount
+        })
+      }
     }
-    
-    
   }
   
   render() {
@@ -195,10 +204,10 @@ class InterestCalculator extends Component {
           {this.props.title === 'compound' ?
             <FormGroup controlId="formControlsSelect">
               <Col componentClass={ControlLabel} sm={2}>
-                {'Compounding Frequency'}
+                {'Compound Frequency'}
               </Col>
               <Col sm={10}>
-                 <FormControl componentClass="select" placeholder="select">
+                 <FormControl componentClass="select" value={this.state.frequency} onChange={this.handleChange} name="frequency">
                    <option value="365">Daily (365/yr)</option>
                    <option value="360">Daily (360/yr)</option>
                    <option value="52">Weekly (52/yr)</option>
