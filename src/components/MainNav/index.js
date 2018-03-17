@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, NavItem, MenuItem } from 'react-bootstrap';
+import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {selectOption} from '../../actions/index';
 
-
 class MainNav extends Component {
-  
+    
     render() {
       const optionList = this.props.options.map((option) => {
         return (

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import InterestCalculator from '../InterestCalculator';
 
@@ -7,18 +6,22 @@ class MainBody extends Component {
   render() {
     if(!this.props.activeOption) {
       return (
-        <h1 style={{textAlign: 'center'}}>
-        <br/>
-        Simple & Compond Interest Calculator
-        <br/>
-        <br/>
-        Explore & Have Fun!
-        </h1>
+        <div className="headingBox">
+          <h1 style={{textAlign: 'center'}}>
+          <br/>
+          Simple & Compond Interest Calculator
+          <br/>
+          <br/>
+          Explore & Have Fun!
+          </h1>
+        </div>
       );
     }
     else {
       return (
-        <InterestCalculator title={this.props.activeOption.name} />
+        <div className="interestCalculator">
+          <InterestCalculator title={this.props.activeOption.name} />
+        </div>
       );
     }
   }

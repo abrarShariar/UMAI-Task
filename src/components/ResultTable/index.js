@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
 
 class ResultTable extends Component {
-  constructor(props){
-    super(props);
-  }
-  
   render() {
       return (
         <div className="resultTable">
@@ -25,8 +21,8 @@ class ResultTable extends Component {
                 <td>{this.props.principal}</td>
                 <td>{this.props.rateOfInterest}</td>
                 <td>{this.props.time}</td>
-                <td>{this.props.interest}</td>
-                <td>{this.props.total}</td>
+                <td>{this.props.interest.toFixed(2)}</td>
+                <td>{this.props.total.toFixed(2)}</td>
               </tr>
             </tbody>
           </Table>

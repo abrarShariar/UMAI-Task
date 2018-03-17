@@ -3,6 +3,7 @@ export default function (state = null, action) {
         case 'OPTION_SELECTED':
             return action.payload;
             break;
+        default:
+            return state;
     }
-    return state;
 }

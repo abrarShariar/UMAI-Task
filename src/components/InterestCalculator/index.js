@@ -108,8 +108,8 @@ class InterestCalculator extends Component {
         });
       } else {
         //printcipal + interest
-        const accuredAmount = Math.round(this.state.principal * Math.pow((1 + (this.state.rateOfInterest/100)/Number(this.state.frequency)), (this.state.frequency * this.state.time)), 2);
-        const interest = Math.round(accuredAmount - this.state.principal, 2); 
+        const accuredAmount = this.state.principal * Math.pow((1 + (this.state.rateOfInterest/100)/Number(this.state.frequency)), (this.state.frequency * this.state.time));
+        const interest = accuredAmount - this.state.principal; 
           
         this.setState({
           showResult: true,
