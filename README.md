@@ -8,7 +8,7 @@ $ yarn install
 $ yarn start
 ```
 
-# Test
+## Test
 ```sh
 $ yarn test
 ```
